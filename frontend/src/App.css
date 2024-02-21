@@ -11,7 +11,7 @@
 }
 ul.navbar_ul {
     margin: 0px;
-    background-color: hotpink;
+    background-color: #4b5866de;
 }
 
 ul.navbar_ul li a {
@@ -22,7 +22,7 @@ ul.navbar_ul li a {
     position: absolute;
     bottom: 0;
     text-align: center;
-    background-color: hotpink;
+    background-color: #4b5866de;
     width: 100%;
     color: #fff;
     height: auto;
@@ -48,7 +48,7 @@ input.inputBox {
     width: 400px;
     padding: 15px;
     margin: 15px;
-    border: 1px solid hotpink;
+    border: 1px solid #4b5866de;
     margin: 0px auto;
     margin-top: 26px;
     margin-bottom: 5px;
@@ -59,9 +59,9 @@ button.appButton {
     display: flex;
     margin-left: 300px;
     padding: 8px;
-    background-color: hotpink;
+    background-color: #4b5866de;
     color: #fff;
-    border: 1px solid hotpink;
+    border: 1px solid #4b5866de;
     cursor: pointer;
     border-radius: 7%;
     margin-bottom:40px ;

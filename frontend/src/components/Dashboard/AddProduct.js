@@ -2,6 +2,8 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 
 
 const AddProduct = ()=>{
@@ -51,27 +53,26 @@ const AddProduct = ()=>{
     	-----------------------------------*/
 
     	const user_id = JSON.parse(auth)._id;
-    	let result    = await fetch('http://127.0.0.1:2000/product/add-product',{
-						    		  method:'post',
-						    		  headers: {
-									    'Content-Type': 'application/json;charset=utf-8',
-									    'authorization':'Bearer '+token
-									  },
-									  body:JSON.stringify({product_title,product_description,product_price,user_id})
-						    	})
 
-        // get data from promise
+    	 axios('http://localhost:2000/product/add-product', {
+              method: "post",
+              data: {product_title,product_description,product_price,user_id},
+              withCredentials: true
+            }).then(function (result) {
 
-    	result = await result.json();
-   		
-    	if(result){
+            	 result = result.data
+            	 if(result.status == true){
 
-    		toast.success('Product added successfully!', {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
+			    		toast.success('Product added successfully!', {
+					      position: toast.POSITION.TOP_RIGHT,
+					    });
 
-    		navigate('/');
-    	}
+			    		navigate('/');
+			     }
+
+            });
+    	
+    	 
     	
 	
     }

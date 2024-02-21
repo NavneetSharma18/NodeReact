@@ -59,6 +59,8 @@ const Register = async (req, res) => {
 | Login Routes
 ---------------------------------------------*/
 
+
+
 const Login = async (req, res) => {
 
     const reqData = req.body;
@@ -76,7 +78,7 @@ const Login = async (req, res) => {
                             
                             res.json({'status':false,'msg':err}); 
                         }else{
-                           res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/','expiresIn':new Date(Date.now() + 3600 * 1000)}).json({'status':true,'msg':'User Login Successfully','data':user,'token':token});
+                           res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/','expiresIn':new Date(Date.now() + 3600 * 1000)}).json({'status':true,'msg':'User Login Successfully','data':user});
                         }
                         
                     })
@@ -96,9 +98,29 @@ const Login = async (req, res) => {
 }
 
 
+/*--------------------------------------------
+| Logout Users
+---------------------------------------------*/
+
+const Logout  = async (req, res) => {
+
+    let token = req.cookies.token;
+
+    if(token){
+         res.clearCookie('token').json({'status':true,'msg':'User Logout Successfully'})
+    }else{
+        res.json({'status':false,'msg':'Invalid request..'})
+    }
+
+}
+
+
+
 
 module.exports =  {
     Index,
     Register,
     Login,
+    Logout,
+    
 };

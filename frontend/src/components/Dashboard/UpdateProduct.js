@@ -2,6 +2,8 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate, useParams }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 
 
 const UpdateProduct = ()=>{
@@ -24,58 +26,56 @@ const UpdateProduct = ()=>{
     const getSingleProduct = async (param)=>{
 		
 		// Get product by Id
-    	let result    = await fetch('http://127.0.0.1:2000/product/get-single-product/'+param.id,{
-						    		  method:'get',
-						    		  headers: {
-									    'Content-Type': 'application/json;charset=utf-8',
-									    'authorization':'Bearer '+token
-									  }
-						    	})
 
-    	result = await result.json();
+		 axios('http://localhost:2000/product/get-single-product/'+param.id, {
+              method: "get",
+              withCredentials: true
+            }).then(function (result) {
 
-    	if(result.status == true){
+            	 result = result.data
+            	 if(result.status == true){
 
-    		setName(result.msg.product_title);
-    		setDesc(result.msg.product_description);
-    		setPrice(result.msg.product_price);
+			    		setName(result.msg.product_title);
+			    		setDesc(result.msg.product_description);
+			    		setPrice(result.msg.product_price);
 
-    	}else{
+			    	}else{
 
-    	    toast.warning(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-    	}
+			    	    toast.warning(result.msg, {
+					      position: toast.POSITION.TOP_RIGHT,
+					    });
+			    	}
+            });
 
     }
 
     const updateProductData = async ()=>{
     	
-    	let result    = await fetch('http://127.0.0.1:2000/product/update-product/'+param.id,{
-						    		  method:'put',
-						    		  headers: {
-									    'Content-Type': 'application/json;charset=utf-8',
-									    'authorization':'Bearer '+token
-									  },
-									  body:JSON.stringify({product_title,product_description,product_price})
-						    	})
-
-    	 result = await result.json();
-   		
-    	 if(result){
 
 
-    		toast.success(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-		    navigate('/');
+    	 axios('http://localhost:2000/product/update-product/'+param.id, {
+              method: "put",
+              data: {product_title,product_description,product_price},
+              withCredentials: true
+            }).then(function (result) {
 
-    	 }else{
+            	 result = result.data
+            	 if(result.status == true){
 
-    	 	toast.error(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-    	 }
+		    		toast.success(result.msg, {
+				      position: toast.POSITION.TOP_RIGHT,
+				    });
+				    navigate('/');
+
+		    	 }else{
+
+		    	 	toast.error(result.msg, {
+				      position: toast.POSITION.TOP_RIGHT,
+				    });
+		    	 }
+
+            });
+
     }
 
 	return (

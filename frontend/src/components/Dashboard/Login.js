@@ -53,58 +53,44 @@ const Login = ()=>{
     	| Send data to Node Js Api
     	-----------------------------------*/
 
-    	// let result = await fetch('http://127.0.0.1:2000/user/login',{
-					// 	    		  method:'post',
-					// 	    		  headers: {
-					// 				    'Content-Type': 'application/json;charset=utf-8'
-					// 				  },
-					// 				  body:JSON.stringify({email,password})
-					// 	    	})
-
-        axios("http://127.0.0.1:2000/user/login", {
+          axios("http://localhost:2000/user/login", {
               method: "post",
               data: {email: email,password: password},
               withCredentials: true
-            }).then(function (response) {
-            console.log(response);
+            }).then(function (res) {
+
+            const result = res.data;
+
+            if(result.status == false){
+
+	    		  toast.error(result.msg, {
+			       position: toast.POSITION.TOP_RIGHT,
+			      });
+
+	    	}else{
+
+	    		  toast.success(result.msg, {
+			        position: toast.POSITION.TOP_RIGHT,
+			      });
+
+			      const user  = JSON.stringify(result.data);
+			      localStorage.setItem('user',user);
+
+	    	     if(result){
+	    		   navigate('/');
+	    	     }
+	    	}
+
           })
           .catch(function (error) {
-            console.log(error);
+
+                 toast.error(error, {
+			        position: toast.POSITION.TOP_RIGHT,
+			     });
           });
-
-        return false;
-
-        // get data from promise
-
-    	// result = await result.json();
-
-    	// if(result.status == false){
-
-    	// 	toast.error(result.msg, {
-		   //    position: toast.POSITION.TOP_RIGHT,
-		   //  });
-
-    	// }else{
-
-    	// 	toast.success(result.msg, {
-		   //    position: toast.POSITION.TOP_RIGHT,
-		   //  });
-
-		   //  const user  = JSON.stringify(result.data);
-		   //  const token = result.token;
-		    
-    	//     localStorage.setItem('user',user);
-    	//     localStorage.setItem('token',token);
-
-    	//     if(result){
-    	// 	 navigate('/');
-    	//     }
-    	// }
-    	
-    	
-    	
+  	
 	
-    }
+   }
 
 	return (
 		<div className="register_div">

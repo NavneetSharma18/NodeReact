@@ -1,6 +1,6 @@
-const express                                = require('express');
-const {Index,Register,Login}                 = require('../Controllers/UserController');
-const router                                 = express.Router();
+const express                             = require('express');
+const {Index,Register,Login,Logout}       = require('../Controllers/UserController');
+const router                              = express.Router();
 
 
 /*--------------------------------------------
@@ -10,5 +10,8 @@ const router                                 = express.Router();
 router.get('/', Index);
 router.post('/register', Register);
 router.post('/login', Login);
+router.get('/logout', Logout);
+
+
 
 module.exports = router;

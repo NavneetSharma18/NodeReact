@@ -2,16 +2,17 @@ import React,{useState,useEffect} from 'react'
 import { Link, useNavigate }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 
 
 const AllProduct = ()=>{
-
 
 	
     const [products,setProducts]  = React.useState([]); 
     const navigate                = useNavigate();
     const auth                    = localStorage.getItem('user');
-    const token                   = localStorage.getItem('token');
+    
 
     useEffect(()=>{
 
@@ -25,51 +26,47 @@ const AllProduct = ()=>{
     	-----------------------------------*/
 
     	const user_id = JSON.parse(auth)._id;
-    	let result    = await fetch('http://127.0.0.1:2000/product/get-product',{
-						    		  method:'get',
-						    		  headers: {
-									    'Content-Type': 'application/json;charset=utf-8',
-									    'authorization':'Bearer '+token
-									  }
-						    	})
 
-        // get data from promise
+    	  axios("http://localhost:2000/product/get-product", {
+              method: "get",
+              withCredentials: true
+            }).then(function (result) {
+            		result = result.data
+            	 if(result.status == true){
+					    		setProducts(result.msg);
+					    	}else{
 
-    	result = await result.json();
-
-    	if(result.status == true){
-    		setProducts(result.msg);
-    	}else{
-
-    	    toast.warning(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-    	}
+					    	    toast.warning(result.msg, {
+							      position: toast.POSITION.TOP_RIGHT,
+							    });
+					    	}
+            });
+    	
     }
 
     const deleteProduct = async (id)=>{
 
-    	let result      = await fetch('http://127.0.0.1:2000/product/delete-product/'+id,{
-						    		  method:'delete',
-						    		  headers: {
-									    'authorization':'Bearer '+token
-									  }
-						    	})
 
-        // get data from promise
 
-    	result = await result.json();
+    	 axios('http://localhost:2000/product/delete-product/'+id, {
+              method: "delete",
+              withCredentials: true
+            }).then(function (result) {
+            	
+            	result = result.data
+				    	if(result.status == true){
+				    		toast.success(result.msg, {
+						      position: toast.POSITION.TOP_RIGHT,
+						    });
+				    		getProducts();
+				    	}else{
+				    		toast.error(result.msg, {
+						      position: toast.POSITION.TOP_RIGHT,
+						    });
+				    	}
+            });
 
-    	if(result.status == true){
-    		toast.success(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-    		getProducts();
-    	}else{
-    		toast.error(result.msg, {
-		      position: toast.POSITION.TOP_RIGHT,
-		    });
-    	}
+    	
     }
 
     const searchProduct = async(event)=>{
@@ -78,27 +75,23 @@ const AllProduct = ()=>{
 
     	if(key){
 
-    			let result      = await fetch('http://127.0.0.1:2000/product/search/'+key,{
-						    		  method:'get',
-						    		  headers: {
-									    'Content-Type': 'application/json;charset=utf-8',
-									    'authorization':'Bearer '+token
-									  }
-						    	})
+    			axios('http://localhost:2000/product/search/'+key, {
+	              method: "get",
+	              withCredentials: true
+	            }).then(function (result) {
+	            	
+	            	 result = result.data
+	            	 if(result.status == true){
+						    		setProducts(result.msg);
+						    		
+						    	}else{
+						    		toast.error(result.msg, {
+								      position: toast.POSITION.TOP_RIGHT,
+								    });
+						    	}
+	            });
 
-		        // get data from promise
-
-		    	result = await result.json();
-
-		    	if(result.status == true){
-		    		console.log(result.msg)
-		    		setProducts(result.msg);
-		    		
-		    	}else{
-		    		toast.error(result.msg, {
-				      position: toast.POSITION.TOP_RIGHT,
-				    });
-		    	}
+		    	
 
     	}else{
     		getProducts();

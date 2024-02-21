@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 mongoose.set("strictQuery", false);
-mongoose.connect('mongodb://root:root@e-dashboard.eehbdod.mongodb.net/?retryWrites=true&w=majority').then(()=>{
+const url = 'mongodb+srv://root:root@e-dashboard.eehbdod.mongodb.net/mern_app?retryWrites=true&w=majority';
+
+mongoose.connect(url).then(()=>{
 		  console.log('DB Connected successfully...')
 }).catch((err) =>{
 	console.log('ERROR: ' +err)
