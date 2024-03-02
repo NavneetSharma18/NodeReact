@@ -1,9 +1,16 @@
+body{
+  background: rgba(32, 29, 58, 0.961);
+}
 .App {
   text-align: center;
  
 }
-
-
+th, tr {
+    color: #fff;
+}
+h2{
+  color: #fff;
+}
 .navbar_ul li{
  
   display: inline-block;
@@ -11,7 +18,8 @@
 }
 ul.navbar_ul {
     margin: 0px;
-    background-color: #4b5866de;
+    background-color: #191634;
+    padding: 10px;
 }
 
 ul.navbar_ul li a {
@@ -19,10 +27,10 @@ ul.navbar_ul li a {
     text-decoration: none;
 }
 .footer{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     text-align: center;
-    background-color: #4b5866de;
+    background-color: #191634;
     width: 100%;
     color: #fff;
     height: auto;
@@ -30,11 +38,27 @@ ul.navbar_ul li a {
     padding: 0px;
 }
 
+
 .register_div {
     text-align: center;
     margin: 0px auto;
+    width: 95%;   
+    margin-top: 10%;
+    margin-bottom:10%;
+    /*padding-top: 5%;
+    padding-bottom: 5%;*/ 
+}
+
+.register_div1 {
+    text-align: center;
+    margin: 0px auto;
     width: 50%;
-    margin-top: 6%;
+    background: #201d3a;
+    padding: 10px;
+    margin: 0px auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border: outset;
 }
 .validation-error{
   color: red;
@@ -48,24 +72,28 @@ input.inputBox {
     width: 400px;
     padding: 15px;
     margin: 15px;
-    border: 1px solid #4b5866de;
+    border: 1px solid #D3C5E5;
     margin: 0px auto;
     margin-top: 26px;
     margin-bottom: 5px;
 }
 button.appButton {
-    width: 11%;
-    /* margin: 0px auto; */
-    display: flex;
-    margin-left: 300px;
+    width: 22%;
     padding: 8px;
-    background-color: #4b5866de;
+    background-color: rgba(32, 29, 58, 0.961);
     color: #fff;
-    border: 1px solid #4b5866de;
+    border: 1px solid #D3C5E5;
     cursor: pointer;
-    border-radius: 7%;
-    margin-bottom:40px ;
-    margin-top:40px ;
+    border-radius: 7%; 
+    float: left 
+}
+.appButtonWrp {
+    width:60%;
+    text-align: center;
+    margin: 0px auto;
+    display: table;
+    
+    margin-top: 2%;
 }
 
 .App-logo {
@@ -85,9 +113,9 @@ td, th {
   padding: 8px;
 }
 
-tr:nth-child(even) {
+/*tr:nth-child(even) {
   background-color: #dddddd;
-}
+}*/
 
 .btn {
     display: inline-block;

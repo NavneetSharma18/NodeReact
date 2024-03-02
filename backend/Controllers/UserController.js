@@ -42,7 +42,7 @@ const Register = async (req, res) => {
                 console.log('error is',err);
                 res.json({'status':false,'msg':err}); 
             }else{
-               res.json({'status':true,'msg':'User Signup|Register Successfully','data':signup,'token':token}); 
+               res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/'}).json({'status':true,'msg':'User Signup|Register Successfully','data':signup}); 
             }
             
         })
@@ -78,7 +78,7 @@ const Login = async (req, res) => {
                             
                             res.json({'status':false,'msg':err}); 
                         }else{
-                           res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/','expiresIn':new Date(Date.now() + 3600 * 1000)}).json({'status':true,'msg':'User Login Successfully','data':user});
+                           res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/'}).json({'status':true,'msg':'User Login Successfully','data':user});
                         }
                         
                     })

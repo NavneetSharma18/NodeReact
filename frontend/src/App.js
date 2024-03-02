@@ -24,7 +24,6 @@ function App() {
   useEffect(()=>{
 
       setNodeapiurl(process.env.REACT_APP_NODE_API_URL);
-       console.log("node api url ",{nodeapiurl})
     })
 
 

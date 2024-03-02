@@ -80,13 +80,16 @@ const AddProduct = ()=>{
 	return (
 
 		<div className="register_div">
-		 <h2> Add Product</h2>
-		 <input className="inputBox" value={product_title} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder="Enter Product Name"/>
-		 <input className="inputBox" value={product_description} onChange={(e)=>{setDesc(e.target.value)}} type="textarea" placeholder="Enter Product Description"/>
-		 <input className="inputBox" value={product_price} onChange={(e)=>{setPrice(e.target.value)}} type="text" placeholder="Enter Product Price"/>
-		 <button onClick={sendProductData} className="appButton">Add Product</button>
-		
-		</div>
+            <div className="register_div1">
+    		 <h2> Add Product</h2>
+    		 <input className="inputBox" value={product_title} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder="Enter Product Name"/>
+    		 <input className="inputBox" value={product_description} onChange={(e)=>{setDesc(e.target.value)}} type="textarea" placeholder="Enter Product Description"/>
+    		 <input className="inputBox" value={product_price} onChange={(e)=>{setPrice(e.target.value)}} type="text" placeholder="Enter Product Price"/>
+    		 <div className="appButtonWrp">
+                <button onClick={sendProductData} className="appButton">Add Product</button>
+             </div>
+    		</div>
+        </div>
 	)
 
 }

@@ -81,12 +81,14 @@ const UpdateProduct = ()=>{
 	return (
 
 		<div className="register_div">
-		 <h2> Update Product</h2>
-		 <input className="inputBox" value={product_title} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder="Enter Product Name"/>
-		 <input className="inputBox" value={product_description} onChange={(e)=>{setDesc(e.target.value)}} type="textarea" placeholder="Enter Product Description"/>
-		 <input className="inputBox" value={product_price} onChange={(e)=>{setPrice(e.target.value)}} type="text" placeholder="Enter Product Price"/>
-		 <button onClick={updateProductData} className="appButton">Update Product</button>
-		
+			<div className="register_div1">
+			 <h2> Update Product</h2>
+			 <input className="inputBox" value={product_title} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder="Enter Product Name"/>
+			 <input className="inputBox" value={product_description} onChange={(e)=>{setDesc(e.target.value)}} type="textarea" placeholder="Enter Product Description"/>
+			 <input className="inputBox" value={product_price} onChange={(e)=>{setPrice(e.target.value)}} type="text" placeholder="Enter Product Price"/>
+			 <button onClick={updateProductData} className="appButton">Update Product</button>
+			
+			</div>
 		</div>
 	)
 

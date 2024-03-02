@@ -3,13 +3,15 @@ import {Link,useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from 'react-redux'
 
 axios.defaults.withCredentials = true
 
 
 const Navbar = ()=>{
 
-	const auth     = localStorage.getItem('user')
+	const apiRes   = useSelector((state) => state.loginRes.authData);
+    const auth     = (apiRes)?(apiRes.data?apiRes.data:''):''
 	const navigate = useNavigate();
 	
 	const logoutUser = ()=>{
@@ -26,7 +28,7 @@ const Navbar = ()=>{
             	 		toast.warning(result.msg, {
 					      position: toast.POSITION.TOP_RIGHT,
 					    });
-		    			localStorage.clear();
+		    			
 	  				    navigate('/signup')
 		    	}else{
 
@@ -46,7 +48,7 @@ const Navbar = ()=>{
 			    	<ul className="navbar_ul">
 					    <li><Link to="/">Product</Link></li>
 					    <li><Link to="/add">Add Product</Link></li>
-					    <li><Link to="/signup" onClick={logoutUser}>Logout ({JSON.parse(auth).name})</Link></li>   
+					    <li><Link to="/signup" onClick={logoutUser}>Logout ({auth.name})</Link></li>   
 					</ul>
 			      :
 				    <ul className="navbar_ul">
