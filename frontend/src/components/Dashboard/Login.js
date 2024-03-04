@@ -15,10 +15,8 @@ const Login = ()=>{
     const [password,setPassword] = useState("");
     const [error,setError]       = useState(false);
     const navigate               = useNavigate();
-
-    const dispatch = useDispatch();
-    const apiRes   = useSelector((state) => state.loginRes.authData);
-    const auth     = (apiRes)?(apiRes.data?apiRes.data:''):''
+    const dispatch               = useDispatch();
+    const auth                   = useSelector((state) => state.loginRes.isUserLogin);
 
     useEffect(()=>{
 
@@ -54,7 +52,7 @@ const Login = ()=>{
     	}
 
     	const data = {email: email,password: password};
-      dispatch(checkLogin(data));
+        dispatch(checkLogin(data));
           
 
     	/*---------------------------------
@@ -109,7 +107,7 @@ const Login = ()=>{
   		 <div className="appButtonWrp">
         <button onClick={sendLoginData} className="appButton">Login</button>
         </div>
-        <h1>{apiRes?apiRes.data.name:''}</h1>
+        
   		</div>
     </div>
 	)

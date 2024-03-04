@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate, useParams }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios';
 axios.defaults.withCredentials = true
 
@@ -20,8 +21,8 @@ const UpdateProduct = ()=>{
     const [error,setError]              = React.useState(false);
     
     const navigate               = useNavigate();
-    const auth                   = localStorage.getItem('user');
-    const token                  = localStorage.getItem('token');
+    const auth                   = useSelector((state) => state.loginRes.isUserLogin);
+    
 
     const getSingleProduct = async (param)=>{
 		

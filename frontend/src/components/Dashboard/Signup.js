@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios';
 
 axios.defaults.withCredentials = true
@@ -16,7 +17,7 @@ const Signup = ()=>{
     const [error,setError]       = useState(false)
     
     const navigate               = useNavigate();
-    const auth                   = localStorage.getItem('user')
+    const auth                   = useSelector((state) => state.loginRes.isUserLogin);
 
     useEffect(()=>{
 

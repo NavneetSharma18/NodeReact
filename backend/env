@@ -1,0 +1,4 @@
+PORT        = 2000
+JWT_KEY     = '#@!@#$%&'
+JWT_KEY_EXP = '24h'
+BASE_URL    = http://localhost:2000/

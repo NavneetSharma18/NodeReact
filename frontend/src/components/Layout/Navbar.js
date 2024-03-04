@@ -4,39 +4,48 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
+import {userLogout} from '../../redux/logoutApi/';
 
 axios.defaults.withCredentials = true
 
 
 const Navbar = ()=>{
 
-	const apiRes   = useSelector((state) => state.loginRes.authData);
-    const auth     = (apiRes)?(apiRes.data?apiRes.data:''):''
+	const auth     = useSelector((state) => state.loginRes.isUserLogin);
+	const userData = useSelector((state) => state.loginRes.authData);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	
 	const logoutUser = ()=>{
 
-		axios("http://localhost:2000/user/logout", {
-              method: "get",
-              withCredentials: true
-            }).then(function (result) {
 
-            	 result = result.data;
+		 dispatch(userLogout());
+		 navigate('/signup');
+
+		 console.log('after logout state is ',userData);
+		 
+
+		// axios("http://localhost:2000/user/logout", {
+        //       method: "get",
+        //       withCredentials: true
+        //     }).then(function (result) {
+
+        //     	 result = result.data;
             	 
-            	 if(result.status == true){
+        //     	 if(result.status == true){
 
-            	 		toast.warning(result.msg, {
-					      position: toast.POSITION.TOP_RIGHT,
-					    });
+        //     	 		toast.warning(result.msg, {
+		// 			      position: toast.POSITION.TOP_RIGHT,
+		// 			    });
 		    			
-	  				    navigate('/signup')
-		    	}else{
+	  	// 			    navigate('/signup')
+		//     	}else{
 
-		    	    toast.warning(result.msg, {
-				      position: toast.POSITION.TOP_RIGHT,
-				    });
-		    	}
-            });
+		//     	    toast.warning(result.msg, {
+		// 		      position: toast.POSITION.TOP_RIGHT,
+		// 		    });
+		//     	}
+        //     });
 
 	   
 	}
@@ -48,7 +57,7 @@ const Navbar = ()=>{
 			    	<ul className="navbar_ul">
 					    <li><Link to="/">Product</Link></li>
 					    <li><Link to="/add">Add Product</Link></li>
-					    <li><Link to="/signup" onClick={logoutUser}>Logout ({auth.name})</Link></li>   
+					    <li><Link to="/signup" onClick={logoutUser}>Logout ({(userData)?((userData.data)?userData.data.name:'-'):'-'})</Link></li>   
 					</ul>
 			      :
 				    <ul className="navbar_ul">

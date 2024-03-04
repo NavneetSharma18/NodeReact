@@ -1,7 +1,9 @@
 const dotenv       = require('dotenv');
 const UserModel    = require('../DB/user');
+const RoleModel    = require('../DB/role');
 const Jwt          = require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const md5          = require('md5');
 
 dotenv.config();
 const jwtKey       = process.env.JWT_KEY;
@@ -35,7 +37,12 @@ const Register = async (req, res) => {
     const reqData = req.body;
 
     try{
-        const signup  = await UserModel.create(reqData);
+
+        role             = await RoleModel.findOne({role_name:'user'});
+        reqData.password = md5(md5(reqData.password));
+        reqData.role_id  = role._id;
+
+        const signup     = await UserModel.create(reqData);
 
         Jwt.sign({signup},jwtKey,{expiresIn:JWTKEYEXP},(err,token)=>{
             if(err){
@@ -68,7 +75,9 @@ const Login = async (req, res) => {
     if(reqData.email && reqData.password){
 
         try{
-             const user =  await UserModel.findOne(reqData).select('-password');
+
+             reqData.password = md5(md5(reqData.password));
+             const user       =  await UserModel.findOne(reqData).select('-password');
 
              if(user){
 
@@ -84,7 +93,7 @@ const Login = async (req, res) => {
                     })
                  
              }else{
-                 res.json({'status':false,'msg':'User doesn`t exist'})
+                 res.json({'status':false,'msg':'Invalid username or password '})
              }
 
         }catch(err){

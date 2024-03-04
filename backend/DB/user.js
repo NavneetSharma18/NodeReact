@@ -28,7 +28,12 @@ const UserSchema = mongoose.Schema({
     min: [3, 'Must be at least 3, got {VALUE}'],
     required: true
   },
-  date: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now },
+  
+  role_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role"
+      }
   
 });
 

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import  reducerOne  from './redux/loginApi'
+import  reducerLogin  from './redux/loginApi'
+import  reducerLogout  from './redux/logoutApi'
 
 export const store = configureStore({
-  reducer: {loginRes:reducerOne},
+  reducer: {loginRes:reducerLogin,logoutRes:reducerLogout},
 })

@@ -8,8 +8,7 @@ axios.defaults.withCredentials = true
 
 const PrivateComponent = ()=>{
      
-      const apiRes   = useSelector((state) => state.loginRes.authData);
-      const auth     = (apiRes)?(apiRes.data?apiRes.data:''):''
+      const auth     = useSelector((state) => state.loginRes.isUserLogin);
       return auth?<Outlet />:<Navigate to='/signup' />
 	
 }

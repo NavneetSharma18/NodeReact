@@ -12,8 +12,7 @@ const AllProduct = ()=>{
 	
     const [products,setProducts]  = React.useState([]); 
     const navigate                = useNavigate();
-    const apiRes   = useSelector((state) => state.loginRes.authData);
-    const auth     = (apiRes)?(apiRes.data?apiRes.data:''):''
+    const auth                    = useSelector((state) => state.loginRes.isUserLogin);
 
     useEffect(()=>{
 

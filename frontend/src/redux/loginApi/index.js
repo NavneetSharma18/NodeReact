@@ -1,12 +1,18 @@
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 axios.defaults.withCredentials = true
 
 
 const initialState = {
-  isLoading:false,
-  authData :null,
-  isError  :false,
+  isLoading  :false,
+  authData   :null,
+  isError    :false,
+  isUserLogin:false,
+  userRoleId :null,
+  userId     :null,
+
 }
 
  export const checkLogin = createAsyncThunk('checkLogin',async(sendData)=>{
@@ -26,19 +32,46 @@ export const loginApiSlice = createSlice({
   extraReducers: (builder) => {
 
     builder.addCase(checkLogin.pending, (state, action) => {
-      state.isLoading = true;
-      state.isError   = false;
+      state.isLoading  = true;
+      state.authData   = action.payload;
     })
     builder.addCase(checkLogin.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.authData  = action.payload;
-      state.isError   = false; 
+
+        const res = action.payload;
+
+        if(res.status == true){
+
+          state.isLoading   = false;
+          state.authData    = action.payload;
+          state.isError     = false; 
+          state.isUserLogin = true;
+          state.userRoleId  = res.data.role_id;
+          state.userId      = res.data._id;
+
+           toast.success(res.msg, {
+             position: toast.POSITION.TOP_RIGHT,
+           });
+
+        }else{
+
+              state.isLoading  = false;
+              state.authData   = action.payload;
+              state.isError    = true;
+              state.isUserLogin= false;
+              state.userRoleId = null;
+              state.userId     = null;
+
+               toast.error(res.msg, {
+                  position: toast.POSITION.TOP_RIGHT,
+               });
+        } 
+      
       
     })
     builder.addCase(checkLogin.rejected, (state, action) => {
-      state.isLoading = false;
-      state.authData  = action.payload;
-      state.isError   = true;
+      state.isLoading  = false;
+      state.authData   = action.payload;
+      state.isError    = true;
     })
 
   }
