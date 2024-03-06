@@ -2,13 +2,14 @@ const express        = require('express');
 const app            = express();
 const cors           = require('cors');
 const dotenv         = require('dotenv');
-const cookieParser   = require('cookie-parser')
+const cookieParser   = require('cookie-parser');
+const fileUpload     = require('express-fileupload');
 const {VerifyToken}  = require('./Middlewares/VerifyToken');
 
 
 require('./DB/config');
 
-
+const uploadDir = __dirname;
 
 /*------------------------------------------
 | Config the Env variables
@@ -17,20 +18,26 @@ require('./DB/config');
 dotenv.config();
 const PORT    = process.env.PORT;
 
-// app.set('json spaces', 2)
-// app.use(cors({'origin':'http://localhost:3000','credentials':true}));
-
-// app.use(express.json());
-// app.use(cookieParser())
-
+/*------------------------------------------
+| Config the Middleware
+--------------------------------------------*/
+app.use(fileUpload());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
 
+/*------------------------------------------
+| Config the Routes
+--------------------------------------------*/
 
 app.use('/user', require('./Routes/user'));
 app.use('/product',VerifyToken, require('./Routes/product'));
 
+
+/*------------------------------------------
+| Config the Server
+--------------------------------------------*/
 
 app.listen(PORT);
 console.log('server started at port',PORT)

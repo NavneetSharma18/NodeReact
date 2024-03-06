@@ -9,9 +9,10 @@ import Navbar            from  './components/Layout/Navbar';
 import Footer            from  './components/Layout/Footer';
 import Signup            from  './components/Dashboard/Signup';
 import Login             from  './components/Dashboard/Login';
-import AddProduct        from  './components/Dashboard/AddProduct';
-import AllProduct        from  './components/Dashboard/AllProducts';
-import UpdateProduct     from  './components/Dashboard/UpdateProduct';
+import Shop              from  './components/Product/User/Shop';
+import AddProduct        from  './components/Product/Admin/AddProduct';
+import AllProduct        from  './components/Product/Admin/AllProducts';
+import UpdateProduct     from  './components/Product/Admin/UpdateProduct';
 import PrivateComponents from  './components/PrivateComponents';
 import ApiBaseUrlContext from  './components/ApiBaseUrlContext';
 
@@ -46,6 +47,7 @@ function App() {
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/shop" element={<Shop />} />
         
         </Routes>
         <Footer />

@@ -1,7 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
-import  reducerLogin  from './redux/loginApi'
-import  reducerLogout  from './redux/logoutApi'
+import { configureStore,getDefaultMiddleware } from '@reduxjs/toolkit'
+import  reducerLogin  from './redux/userApi'
+import {thunk} from 'redux-thunk';
+
 
 export const store = configureStore({
-  reducer: {loginRes:reducerLogin,logoutRes:reducerLogout},
+  reducer: {
+            loginRes:reducerLogin
+   },
+   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 })

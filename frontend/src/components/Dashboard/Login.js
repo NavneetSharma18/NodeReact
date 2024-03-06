@@ -3,7 +3,7 @@ import { useNavigate }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
-import {checkLogin} from '../../redux/loginApi/';
+import {checkLogin} from '../../redux/userApi/';
 
 
 
@@ -53,49 +53,6 @@ const Login = ()=>{
 
     	const data = {email: email,password: password};
         dispatch(checkLogin(data));
-          
-
-    	/*---------------------------------
-    	| Send data to Node Js Api
-    	-----------------------------------*/
-
-        //   axios("http://localhost:2000/user/login", {
-        //       method: "post",
-        //       data: {email: email,password: password},
-        //       withCredentials: true
-        //     }).then(function (res) {
-
-        //           const result = res.data;
-
-        //           if(result.status == false){
-
-        //     	    		  toast.error(result.msg, {
-        //     			       position: toast.POSITION.TOP_RIGHT,
-        //     			      });
-
-        //     	    	}else{
-
-        //     	    		  toast.success(result.msg, {
-        //     			        position: toast.POSITION.TOP_RIGHT,
-        //     			      });
-
-        //     			      const user  = JSON.stringify(result.data);
-        //     			      localStorage.setItem('user',user);
-
-        //     	    	     if(result){
-        //     	    		    navigate('/');
-        //     	    	     }
-        //     	    	}
-
-        //   })
-        //   .catch(function (error) {
-
-        //          toast.error(error, {
-			     //       position: toast.POSITION.TOP_RIGHT,
-			     // });
-        //   });
-  	
-	
    }
 
 	return (

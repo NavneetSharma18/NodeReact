@@ -1,4 +1,5 @@
 const ProductModel = require('../DB/product');
+const {PROJECT_DIR,UPLOAD_FOLDER}= require('../setting.js');
 
 /*--------------------------------------------
 | Index Routes
@@ -6,12 +7,45 @@ const ProductModel = require('../DB/product');
 
 
 const addProduct = async (req, res) => {
-
      try{
-      
-        const products = await ProductModel.create(req.body);
-        res.json({'status':true,'msg':products});
+           
 
+             if (!req.files){
+                    
+                   res.json({'status':false,'msg':'Please upload file'});
+
+              }else if(req.files.product_image.mimetype != 'image/jpeg'){
+
+                   res.json({'status':false,'msg':'Only image allowed'});
+
+              }else{
+                     
+                     sampleFile  = req.files.product_image;
+                     newFilename = Date.now()+sampleFile.name;
+                     file_path   = '/'+UPLOAD_FOLDER+'/'+newFilename;
+                     uploadPath  = PROJECT_DIR+file_path;
+                   
+                     sampleFile.mv(uploadPath, function(err) {
+
+                         if (err){
+
+                            res.json({'status':false,'msg':err});
+                         
+                         }else{
+
+                            req.body.product_image = file_path;
+                            const products         = ProductModel.create(req.body);
+                            res.json({'status':true,'msg':products});
+                            
+                         }
+                      
+                     });
+                  
+                }
+            
+               
+
+        
     }catch(err){
         res.json({'status':false,'msg':err});
     }
