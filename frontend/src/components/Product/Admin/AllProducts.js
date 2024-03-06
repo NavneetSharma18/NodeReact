@@ -7,6 +7,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true
 
 
+
 const AllProduct = ()=>{
 
 	
@@ -110,6 +111,7 @@ const AllProduct = ()=>{
 			     <th>Product Name</th>
 			     <th>Product Description</th>
 			     <th>Product Price</th>
+			     <th>Product Image</th>
 			     <th>Action</th>
 			  </tr>
 			  {
@@ -120,6 +122,7 @@ const AllProduct = ()=>{
 					    <td>{item.product_title}</td>
 					    <td>{item.product_description}</td>
 					    <td>₹{item.product_price}</td>
+					    <td><img width='15%' src={'http://localhost:2000'+item.product_image} /></td>
 					    <td><button className='btn btn-danger' onClick={()=>deleteProduct(item._id)}>Delete</button>
 					    	<Link className='btn btn-primary' to={"/update/"+item._id}>Update</Link>
 					    </td>
