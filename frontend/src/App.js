@@ -7,14 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Navbar            from  './components/Layout/Navbar';
 import Footer            from  './components/Layout/Footer';
-import Signup            from  './components/Dashboard/Signup';
-import Login             from  './components/Dashboard/Login';
-import Shop              from  './components/Product/User/Shop';
-import AddProduct        from  './components/Product/Admin/AddProduct';
-import AllProduct        from  './components/Product/Admin/AllProducts';
-import UpdateProduct     from  './components/Product/Admin/UpdateProduct';
+import Signup            from  './components/Signup';
+import Login             from  './components/Login';
+import Shop              from  './components/User/Shop';
+import AddProduct        from  './components/Admin/Product/AddProduct';
+import AllProduct        from  './components/Admin/Product/AllProducts';
+import UpdateProduct     from  './components/Admin/Product/UpdateProduct';
 import PrivateComponents from  './components/PrivateComponents';
-import ApiBaseUrlContext from  './components/ApiBaseUrlContext';
 
 function App() {
 
@@ -31,8 +30,6 @@ function App() {
   return (
 
     <div className="App">
-    <ApiBaseUrlContext.Provider value={nodeapiurl}>
-    
      <BrowserRouter>
        <Navbar/>
         <Routes>
@@ -52,7 +49,6 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-      </ApiBaseUrlContext.Provider>
         <ToastContainer />
     </div>
   );

@@ -26,7 +26,7 @@ export const actionAddProduct = (senddata) => async (dispatch) => {
 
     try {   
 
-            const res  = await axios(API_BASE_URL+"user/login", {
+            const res  = await axios(API_BASE_URL+"/user/login", {
                                   method: "post",
                                   data: {email: senddata.email,password: senddata.password},
                                   withCredentials: true

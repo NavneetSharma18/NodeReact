@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -23,6 +23,8 @@ const initialState = {
 ---------------------------------------------------*/
 
 export const checkLogin = (senddata) => async (dispatch) => {
+
+  console.log(API_BASE_URL);
 
     try {   
 

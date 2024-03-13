@@ -1,6 +1,7 @@
 const dotenv       = require('dotenv');
 const UserModel    = require('../DB/user');
 const RoleModel    = require('../DB/role');
+const ProductModel = require('../DB/product');
 const Jwt          = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const md5          = require('md5');
@@ -27,6 +28,7 @@ const Index = async (req, res) => {
     }
     
 }
+
 
 /*--------------------------------------------
 | Register Routes
@@ -123,6 +125,19 @@ const Logout  = async (req, res) => {
 
 }
 
+const getProduct = async (req, res) => {
+
+     try{
+      
+        const products = await ProductModel.find();
+        res.json({'status':true,'msg':products});
+
+    }catch(err){
+        res.json({'status':true,'msg':err});
+    }
+    
+}
+
 
 
 
@@ -131,5 +146,6 @@ module.exports =  {
     Register,
     Login,
     Logout,
+    getProduct,
     
 };
