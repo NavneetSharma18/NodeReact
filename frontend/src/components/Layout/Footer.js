@@ -1,7 +1,8 @@
 import React from 'react'
 
 const Footer = ()=>{
-
+    
+   
 	return (
 		<div className="footer">
 		  <h3>E-Dashboard</h3>
