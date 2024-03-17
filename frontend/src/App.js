@@ -9,7 +9,9 @@ import Navbar            from  './components/Layout/Navbar';
 import Footer            from  './components/Layout/Footer';
 import Signup            from  './components/Signup';
 import Login             from  './components/Login';
+
 import Shop              from  './components/User/Shop';
+
 import AddProduct        from  './components/Admin/Product/AddProduct';
 import AllProduct        from  './components/Admin/Product/AllProducts';
 import UpdateProduct     from  './components/Admin/Product/UpdateProduct';
@@ -32,6 +34,7 @@ function App() {
     <div className="App">
      <BrowserRouter>
        <Navbar/>
+       
         <Routes>
         
           <Route element={<PrivateComponents />} >

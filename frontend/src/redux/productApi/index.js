@@ -7,12 +7,12 @@ axios.defaults.withCredentials = true
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const initialState = {
-  isLoading  :false,
-  authData   :null,
-  isError    :false,
-  isUserLogin:false,
-  userRoleId :null,
-  userId     :null,
+
+  cartItems   : [],
+  newItem     : null,
+  totalPrice  : null,
+  subTotal    : null,
+  shippingCost: 4
 
 }
 
@@ -22,31 +22,14 @@ const initialState = {
 | Create Redux Thunk For Api Call ASYNC
 ---------------------------------------------------*/
 
-export const actionAddProduct = (senddata) => async (dispatch) => {
+export const addProductToCart = (product) => async (dispatch) => {
 
     try {   
-
-            const res  = await axios(API_BASE_URL+"/user/login", {
-                                  method: "post",
-                                  data: {email: senddata.email,password: senddata.password},
-                                  withCredentials: true
-                              });
-           const resp = res.data;
-
-            if (resp.status == true) {
-
-                 const user = resp.data;
-                 toast.success(resp.msg, {
-                   position: toast.POSITION.TOP_RIGHT,
-                 });
-                 dispatch(loginUser(user));
-
-            }else{
-
-                toast.error(resp.msg, {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
-            }
+          
+          dispatch(addToCart(product));
+          toast.success(product.product_title+' is added to your cart successfully!', {
+              position: toast.POSITION.TOP_RIGHT,
+            });
 
     }catch (error) {
 
@@ -58,110 +41,6 @@ export const actionAddProduct = (senddata) => async (dispatch) => {
 
 }
 
-export const actionDeleteProduct = () => async (dispatch) => {
-
-    try {   
-
-            const res  = await axios(API_BASE_URL+"user/logout", {
-                               method: "get",
-                               withCredentials: true
-                            });
-            const resp = res.data;
-
-            if (resp.status == true) {
-
-                 const user = resp.data;
-                 toast.success(resp.msg, {
-                   position: toast.POSITION.TOP_RIGHT,
-                 });
-                 dispatch(logoutUser());
-
-            }else{
-
-                toast.error(resp.msg, {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
-            }
-
-    }catch (error) {
-
-            toast.error('Error during logout:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
-
-export const actionUpdateProduct = () => async (dispatch) => {
-
-    try {   
-
-            const res  = await axios(API_BASE_URL+"user/logout", {
-                               method: "get",
-                               withCredentials: true
-                            });
-            const resp = res.data;
-
-            if (resp.status == true) {
-
-                 const user = resp.data;
-                 toast.success(resp.msg, {
-                   position: toast.POSITION.TOP_RIGHT,
-                 });
-                 dispatch(logoutUser());
-
-            }else{
-
-                toast.error(resp.msg, {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
-            }
-
-    }catch (error) {
-
-            toast.error('Error during logout:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
-
-export const actionAllProduct = () => async (dispatch) => {
-
-    try {   
-
-            const res  = await axios(API_BASE_URL+"user/logout", {
-                               method: "get",
-                               withCredentials: true
-                            });
-            const resp = res.data;
-
-            if (resp.status == true) {
-
-                 const user = resp.data;
-                 toast.success(resp.msg, {
-                   position: toast.POSITION.TOP_RIGHT,
-                 });
-                 dispatch(logoutUser());
-
-            }else{
-
-                toast.error(resp.msg, {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
-            }
-
-    }catch (error) {
-
-            toast.error('Error during logout:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
 
 
 /*-------------------------------------------------
@@ -175,44 +54,22 @@ export const productApiSlice = createSlice({
   initialState,
   reducers: {
 
-          addProduct: (state, action) => {
+          addToCart: (state, action) => {
 
-                  state.isLoading   = false;
-                  state.authData    = action.payload;
-                  state.isError     = false; 
-                  state.isUserLogin = true;
-                  state.userRoleId  = action.payload.role_id;
-                  state.userId      = action.payload._id;
-          },
-          deleteProduct: (state,action) => {
+                  state.newItem       = action.payload;
+                  const isItemPresent = state.cartItems.some(item => item._id === state.newItem._id && item.product_price === state.newItem.product_price);
+                  if(!isItemPresent){
+                    state.cartItems.push(state.newItem);
+                  }
+                  state.subTotal   = state.cartItems.reduce((acc, item) => acc + item.product_price*1, 0);
+                  state.totalPrice = state.subTotal*1+state.shippingCost*1
 
-                  state.isLoading   = false;
-                  state.authData    = null;
-                  state.isError     = false; 
-                  state.isUserLogin = false;
-                  state.userRoleId  = null;
-                  state.userId      = null;
-          },
-          updateProduct: (state,action) => {
 
-                  state.isLoading   = false;
-                  state.authData    = null;
-                  state.isError     = false; 
-                  state.isUserLogin = false;
-                  state.userRoleId  = null;
-                  state.userId      = null;
-          },
-          allProduct: (state,action) => {
-
-                  state.isLoading   = false;
-                  state.authData    = null;
-                  state.isError     = false; 
-                  state.isUserLogin = false;
-                  state.userRoleId  = null;
-                  state.userId      = null;
+                  
+              
           }
   }
 })
 
-export const { addProduct, deleteProduct, updateProduct, allProduct } = loginApiSlice.actions;
-export default loginApiSlice.reducer
+export const { addToCart } = productApiSlice.actions;
+export default productApiSlice.reducer

@@ -28,6 +28,7 @@ ul.navbar_ul li a {
 }
 .cart_icon{
     height: 50px;
+    cursor: pointer;
 }
  #scroll::-webkit-scrollbar {
       width: 1px;

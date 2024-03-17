@@ -10,7 +10,7 @@ axios.defaults.withCredentials = true
 const AddProduct = ()=>{
 
 
-	  const [product_title,setName]       = useState("");
+	const [product_title,setName]       = useState("");
     const [product_description,setDesc] = useState("");
     const [product_price,setPrice]      = useState("");
     const [error,setError]              = useState(false);

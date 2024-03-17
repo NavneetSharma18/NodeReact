@@ -3,6 +3,8 @@ import { useNavigate }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
+import {addProductToCart} from '../../redux/productApi/';
+
 import axios from 'axios';
 axios.defaults.withCredentials = true
 
@@ -10,8 +12,9 @@ axios.defaults.withCredentials = true
 const Shop = ()=>{
 
 	const [products,setProducts]  = React.useState([]);
-	const auth  = useSelector((state) => state.loginRes.userId);
-	const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+	const auth                    = useSelector((state) => state.loginRes.userId);
+	const dispatch                = useDispatch();
+	const API_BASE_URL            = process.env.REACT_APP_API_BASE_URL
  
 
 	useEffect(()=>{
@@ -42,6 +45,13 @@ const Shop = ()=>{
 					    	}
             });
     	
+    }
+
+    const productAddToCart = async (product)=>{
+    	//console.log('heelo from cart btn');
+
+    	dispatch(addProductToCart(product));
+
     }
 
 	return (
@@ -95,8 +105,8 @@ const Shop = ()=>{
 										</div>
 										<div className="flex items-center justify-between">
 											<span className="text-3xl font-bold text-gray-900 dark:text-white">₹{item.product_price}</span>
-											<a href="#"
-												className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+											<a href="javascript:void(0)"
+												className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={()=>{productAddToCart(item)}}>Add
 												to cart</a>
 										</div>
 									</div>
