@@ -181,7 +181,10 @@ td.no_result {
     text-align: center;
     color: red;
 }
-
+td.pro_img {
+  width: 8% !important;
+ 
+}
 
 
 @media (prefers-reduced-motion: no-preference) {

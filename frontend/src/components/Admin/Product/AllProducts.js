@@ -50,7 +50,7 @@ const AllProduct = ()=>{
 
 
 
-    	 axios('http://localhost:2000/product/delete-product/'+id, {
+    	 axios(API_BASE_URL+'/product/delete-product/'+id, {
               method: "delete",
               withCredentials: true
             }).then(function (result) {
@@ -77,7 +77,7 @@ const AllProduct = ()=>{
 
     	if(key){
 
-    			axios('http://localhost:2000/product/search/'+key, {
+    			axios(API_BASE_URL+'/product/search/'+key, {
 	              method: "get",
 	              withCredentials: true
 	            }).then(function (result) {
@@ -123,7 +123,7 @@ const AllProduct = ()=>{
 					    <td>{item.product_title}</td>
 					    <td>{item.product_description}</td>
 					    <td>₹{item.product_price}</td>
-					    <td><img width='15%' src={'http://localhost:2000'+item.product_image} /></td>
+					    <td className='pro_img'><img width='100%' src={'http://localhost:2000'+item.product_image} /></td>
 					    <td><button className='btn btn-danger' onClick={()=>deleteProduct(item._id)}>Delete</button>
 					    	<Link className='btn btn-primary' to={"/update/"+item._id}>Update</Link>
 					    </td>
