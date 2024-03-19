@@ -15,6 +15,9 @@ const Signup = ()=>{
     const [email,setEmail]       = useState("");
     const [password,setPassword] = useState("");
     const [error,setError]       = useState(false)
+
+	const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
     
     const navigate               = useNavigate();
     const auth                   = useSelector((state) => state.loginRes.isUserLogin);
@@ -64,7 +67,7 @@ const Signup = ()=>{
     	| Send data to Node Js Api
     	-----------------------------------*/
 
-    	axios('http://localhost:2000/user/register', {
+    	axios(API_BASE_URL+'/user/register', {
               method: "post",
               data: {name,email,password},
               withCredentials: true

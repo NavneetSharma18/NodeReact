@@ -27,9 +27,7 @@ export const addProductToCart = (product) => async (dispatch) => {
     try {   
           
           dispatch(addToCart(product));
-          toast.success(product.product_title+' is added to your cart successfully!', {
-              position: toast.POSITION.TOP_RIGHT,
-            });
+          
 
     }catch (error) {
 
@@ -60,6 +58,9 @@ export const productApiSlice = createSlice({
                   const isItemPresent = state.cartItems.some(item => item._id === state.newItem._id && item.product_price === state.newItem.product_price);
                   if(!isItemPresent){
                     state.cartItems.push(state.newItem);
+                    toast.success(state.newItem.product_title+' is added to your cart successfully!', {
+                      position: toast.POSITION.TOP_RIGHT,
+                    });
                   }
                   state.subTotal   = state.cartItems.reduce((acc, item) => acc + item.product_price*1, 0);
                   state.totalPrice = state.subTotal*1+state.shippingCost*1

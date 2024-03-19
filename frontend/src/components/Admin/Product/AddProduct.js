@@ -9,6 +9,7 @@ axios.defaults.withCredentials = true
 
 const AddProduct = ()=>{
 
+	const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 	const [product_title,setName]       = useState("");
     const [product_description,setDesc] = useState("");
@@ -70,7 +71,7 @@ const AddProduct = ()=>{
       formData.append('product_description',product_description);
       formData.append('product_price',product_price);
       
-    	 axios('http://localhost:2000/product/add-product', {
+    	 axios(API_BASE_URL+'/product/add-product', {
               method: "post",
               data  : formData,
               withCredentials: true

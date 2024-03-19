@@ -10,7 +10,8 @@ axios.defaults.withCredentials = true
 
 const AllProduct = ()=>{
 
-	
+	const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
     const [products,setProducts]  = React.useState([]); 
     const navigate                = useNavigate();
     const auth                    = useSelector((state) => state.loginRes.isUserLogin);
@@ -28,7 +29,7 @@ const AllProduct = ()=>{
 
     	const user_id = (auth)?auth._id:'';
 
-    	  axios("http://localhost:2000/product/get-product", {
+    	  axios(API_BASE_URL+"/product/get-product", {
               method: "get",
               withCredentials: true
             }).then(function (result) {

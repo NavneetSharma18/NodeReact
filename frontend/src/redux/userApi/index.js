@@ -28,7 +28,7 @@ export const checkLogin = (senddata) => async (dispatch) => {
 
     try {   
 
-            const res  = await axios(API_BASE_URL+"user/login", {
+            const res  = await axios(API_BASE_URL+"/user/login", {
                                   method: "post",
                                   data: {email: senddata.email,password: senddata.password},
                                   withCredentials: true
@@ -64,7 +64,7 @@ export const checkLogout = () => async (dispatch) => {
 
     try {   
 
-            const res  = await axios(API_BASE_URL+"user/logout", {
+            const res  = await axios(API_BASE_URL+"/user/logout", {
                                method: "get",
                                withCredentials: true
                             });

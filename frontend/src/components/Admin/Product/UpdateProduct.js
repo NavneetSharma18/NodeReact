@@ -15,6 +15,8 @@ const UpdateProduct = ()=>{
 			getSingleProduct(param)
 	},[])
 
+	const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
 	const [product_title,setName]       = React.useState("");
     const [product_description,setDesc] = React.useState("");
     const [product_price,setPrice]      = React.useState("");
@@ -28,7 +30,7 @@ const UpdateProduct = ()=>{
 		
 		// Get product by Id
 
-		 axios('http://localhost:2000/product/get-single-product/'+param.id, {
+		 axios(API_BASE_URL+'/product/get-single-product/'+param.id, {
               method: "get",
               withCredentials: true
             }).then(function (result) {
