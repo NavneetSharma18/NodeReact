@@ -1,10 +1,11 @@
 import React,{useState} from 'react'
-import {Link,useNavigate} from 'react-router-dom'
+import {Link,json,useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
 import {checkLogout} from '../../redux/userApi/';
+import {incProductQty,decProductQty,removeProductCart} from '../../redux/productApi/';
 
 axios.defaults.withCredentials = true
 
@@ -13,6 +14,7 @@ const Navbar = ()=>{
 
 	const auth         = useSelector((state) => state.loginRes.isUserLogin);
 	const userData     = useSelector((state) => state.loginRes.authData);
+
   const cartItems    = useSelector((state) => state.cartItem.cartItems);
   const total        = useSelector((state) => state.cartItem.totalPrice);
   const subTotal     = useSelector((state) => state.cartItem.subTotal);
@@ -21,6 +23,8 @@ const Navbar = ()=>{
 	const navigate     = useNavigate();
 	const dispatch     = useDispatch();
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
+  const [qty,setQty] = useState(1);
   
  
 	
@@ -31,7 +35,45 @@ const Navbar = ()=>{
 	   
 	}
 
-   const [isVisible, setIsVisible] = useState(true);
+  /*-------------------------------------------------
+  | Cart Functions start
+  -------------------------------------------------*/
+
+ 
+
+  const qtyIncrease = (product) =>{
+    
+    const product1 = JSON.parse(JSON.stringify(product))
+    product1.qty   = qty;
+    setQty(qty+1);
+    dispatch(incProductQty(product1));
+
+  }
+
+  const qtyDecrease = (product) =>{
+   
+    if(qty > 0){
+      
+      const product1 = JSON.parse(JSON.stringify(product))
+      product1.qty   = qty;
+      setQty(qty-1);
+      dispatch(decProductQty(product1));
+    }
+    
+  }
+  const removeProduct = (product) =>{
+  
+      dispatch(removeProductCart(product));
+    
+  }
+
+  
+
+  /*-------------------------------------------------------------------
+  | Show cart icon on click
+  --------------------------------------------------------------------*/
+
+  const [isVisible, setIsVisible] = useState(true);
 
   const toggleVisibilityCart = () => {
     setIsVisible(!isVisible);
@@ -112,8 +154,9 @@ const Navbar = ()=>{
                            <div className="rounded-lg md:w-2/3">
   
                           {
+                            
                             cartItems.length>0 ? cartItems.map((item,index)=>
-
+                            
                                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
                                   <img src={API_BASE_URL+item.product_image} alt="product-image" className="w-full rounded-lg sm:w-40" />
                                   <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
@@ -123,13 +166,13 @@ const Navbar = ()=>{
                                     </div>
                                     <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                                       <div className="flex items-center border-gray-100">
-                                        <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
-                                        <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={1}  min="1" />
-                                        <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+                                        <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>{qtyDecrease(item)}} > - </span>
+                                        <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={item.qty}  min="1" />
+                                        <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>{qtyIncrease(item)}}> + </span>
                                       </div>
                                       <div className="flex items-center space-x-4">
                                         <p className="text-sm">₹{item.product_price}</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500" onClick={()=>{removeProduct(item)}}>
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                       </div>

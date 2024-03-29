@@ -48,9 +48,10 @@ const Shop = ()=>{
     }
 
     const productAddToCart = async (product)=>{
-    	//console.log('heelo from cart btn');
 
-    	dispatch(addProductToCart(product));
+    	const product1 = JSON.parse(JSON.stringify(product))
+        product1.qty   = 1;
+    	dispatch(addProductToCart(product1));
 
     }
 
