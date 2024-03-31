@@ -4,27 +4,145 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
 import {checkLogout} from '../../redux/userApi/';
+
 import {incProductQty,decProductQty,removeProductCart} from '../../redux/productApi/';
+
 axios.defaults.withCredentials = true
 
 
 
 const Checkout = ()=>{
 
+// Redux Params
 const auth         = useSelector((state) => state.loginRes.isUserLogin);
 const userData     = useSelector((state) => state.loginRes.authData);
-
 const cartItems    = useSelector((state) => state.cartItem.cartItems);
 const total        = useSelector((state) => state.cartItem.totalPrice);
 const subTotal     = useSelector((state) => state.cartItem.subTotal);
 const shippingCost = useSelector((state) => state.cartItem.shippingCost);
-
 const navigate     = useNavigate();
 const dispatch     = useDispatch();
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
- 
+//Place order Params
+
+const [name,setName]       = useState("");
+const [email,setEmail]     = useState("");
+const [address,setAddress] = useState("");
+const [city,setCity]       = useState("");
+const [state,setState]     = useState("");
+const [zip,setZip]         = useState("");
+const [country,setCountry] = useState("");
+const [showPayment,setshowPayment] = useState("");
+const [error,setError]     = useState(false);
+
+ const placeOrder = async ()=>{
+
+        if(!name || !email || !address || !city || !state || !zip || !country){
+
+            setError(true);
+
+            if(error && !name){
+
+                toast.error('Please enter your name', {
+                   position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            if(error && !email){
+
+                toast.error('Please enter your email', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            if(error && !address){
+
+                toast.error('Please enter your address', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            
+            if(error && !city){
+
+                toast.error('Please enter your city', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            
+            if(error && !state){
+
+                toast.error('Please enter your state', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            
+            if(error && !zip){
+
+                toast.error('Please enter your zip', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            
+            if(error && !country){
+
+                toast.error('Please enter your country', {
+                 position: toast.POSITION.TOP_RIGHT,
+                });
+                return false;
+            }
+            
+            return false;
+            
+        }
+
+        /*---------------------------------
+    	| Send data to Node Js Api
+    	-----------------------------------*/
+
+    	axios(API_BASE_URL+'/payment/create-pi', {
+            method: "post",
+            data: {email,total},
+            withCredentials: true
+          }).then(function (res) {
+
+          const result = res.data;
+          if(result.status == true){
+              
+            const pIntent = result.pi;
+            console.log(pIntent.id)
+
+              toast.success(result.msg, {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+
+          }else{
+               toast.error(result.msg, {
+                    position: toast.POSITION.TOP_RIGHT,
+                  });
+              return false;
+          }
+         }).catch(error => {
+			
+			toast.error('Error fetching data: '+error, {
+				position: toast.POSITION.TOP_RIGHT,
+				});
+			return false;
+			
+		  });
+
+       
+    
+
+ }
 
   return (
           
@@ -43,42 +161,42 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
                           </div>
                           <div className="text-sm tracking-wide text-white-500 mt-4 sm:mt-0 sm:ml-4">Complete your shipping and payment details below.</div>
                           <div className="absolute sm:relative sm:top-auto sm:right-auto ml-auto right-4 top-4 text-white-400 hover:text-white-800 cursor-pointer">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                           </div>
                       </div>
                       <div className="rounded-md">
-                          <form id="payment-form" method="POST" action="">
+                          <form id="payment-form" method="POST" >
                               <section>
                                   <h2 className="uppercase tracking-wide text-lg font-semibold text-white-700 my-2">Shipping & Billing Information</h2>
                                   <fieldset className="mb-3 bg-white shadow-lg rounded text-white-600">
                                       <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                           <span className="text-right px-2">Name</span>
-                                          <input name="name" className="focus:outline-none px-3" placeholder="Try Odinsson" required="" />
+                                          <input name="name" className="focus:outline-none px-3" placeholder="Try Odinsson" required="" onChange={(e)=>{setName(e.target.value)}} />
                                       </label>
                                       <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                           <span className="text-right px-2">Email</span>
-                                          <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" required="" />
+                                          <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" required="" onChange={(e)=>{setEmail(e.target.value)}}/>
                                       </label>
                                       <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                           <span className="text-right px-2">Address</span>
-                                          <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" />
+                                          <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" onChange={(e)=>{setAddress(e.target.value)}}/>
                                       </label>
                                       <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                           <span className="text-right px-2">City</span>
-                                          <input name="city" className="focus:outline-none px-3" placeholder="San Francisco" />
+                                          <input name="city" className="focus:outline-none px-3" placeholder="San Francisco" onChange={(e)=>{setCity(e.target.value)}}/>
                                       </label>
                                       <label className="inline-flex w-2/4 border-gray-200 py-3">
                                           <span className="text-right px-2">State</span>
-                                          <input name="state" className="focus:outline-none px-3" placeholder="CA" />
+                                          <input name="state" className="focus:outline-none px-3" placeholder="CA" onChange={(e)=>{setState(e.target.value)}}/>
                                       </label>
                                       <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200 py-3">
                                           <span className="text-right px-2 xl:px-0 xl:text-none">ZIP</span>
-                                          <input name="postal_code" className="focus:outline-none px-3" placeholder="98603" />
+                                          <input name="postal_code" className="focus:outline-none px-3" placeholder="98603" onChange={(e)=>{setZip(e.target.value)}}/>
                                       </label>
                                       <label className="flex border-t border-gray-200 h-12 py-3 items-center select relative">
                                           <span className="text-right px-2">Country</span>
                                           <div id="country" className="focus:outline-none px-3 w-full flex items-center">
-                                              <select name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
+                                              <select name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none" onChange={(e)=>{setCountry(e.target.value)}}>
                                                   <option value="AU">Australia</option>
                                                   <option value="BE">Belgium</option>
                                                   <option value="BR">Brazil</option>
@@ -101,7 +219,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
                                                   <option value="ES">Spain</option>
                                                   <option value="TN">Tunisia</option>
                                                   <option value="GB">United Kingdom</option>
-                                                  <option value="US" selected="selected">United States</option>
+                                                  <option value="US" >United States</option>
                                               </select>
                                           </div>
                                       </label>
@@ -109,20 +227,36 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
                               </section>
                           </form>
                       </div>
-                      <div className="rounded-md">
-                          <section>
-                              <h2 className="uppercase tracking-wide text-lg font-semibold text-white-700 my-2">Payment Information</h2>
-                              <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
-                                  <label className="flex border-b border-gray-200 h-12 py-3 items-center">
-                                      <span className="text-right px-2">Card</span>
-                                      <input name="card" className="focus:outline-none px-3 w-full" placeholder="Card number MM/YY CVC" required="" />
-                                  </label>
-                              </fieldset>
-                          </section>
-                      </div>
-                      <button className="submit-button px-4 py-3 rounded-full bg-pink-400 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors">
-                          Pay €846.98
-                      </button>
+                      {
+                        (showPayment == true)?
+                            <>
+                                <div className="rounded-md">
+                                    <section><h2 className="uppercase tracking-wide text-lg font-semibold text-white-700 my-2">Payment Information</h2>
+                                        <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
+                                            <label className="flex border-b border-gray-200 h-12 py-3 items-center">
+                                                <span className="text-right px-2">Card</span>
+                                                <input name="card" className="focus:outline-none px-3 w-full" placeholder="Card number MM/YY CVC" required="" />
+                                            </label>
+                                        </fieldset>
+                                    </section>
+                                </div>
+                                <button className="submit-button px-4 py-3 rounded-full bg-pink-400 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors" onClick={placeOrder}>
+                                    Pay ₹{total}
+                                </button>
+                            </>
+                        
+
+                        :
+                        <>
+                          <button className="submit-button px-4 py-3 rounded-full bg-pink-400 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors" onClick={placeOrder}>
+                            Proceed To Payment
+                          </button>
+                        </>
+                        
+                        
+                      }
+                      
+                      
                   </div>
                   <div className="col-span-1 bg-white lg:block hidden">
                       <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">Order Summary</h1>

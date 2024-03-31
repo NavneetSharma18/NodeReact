@@ -33,6 +33,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/user', require('./Routes/user'));
 app.use('/product',VerifyToken, require('./Routes/product'));
+app.use('/payment', require('./Routes/payment'));
 
 
 /*------------------------------------------
