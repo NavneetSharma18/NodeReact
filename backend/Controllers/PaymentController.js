@@ -28,11 +28,9 @@ const createPaymentIntent = async (req, res) => {
             try{
                 const paymentIntent = await stripe.paymentIntents.create({
                     amount: total,
-                    currency: 'usd',
-                    //customer:email,
-                    automatic_payment_methods: {
-                        enabled: true,
-                    },
+                    currency: 'inr',
+                    description: 'Software development services',
+                    //customer:email
                     });
                     res.json({ 'status': true, 'msg': 'Payment Intent created successfully!','pi':paymentIntent });
         
