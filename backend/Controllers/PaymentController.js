@@ -21,13 +21,13 @@ const createPaymentIntent = async (req, res) => {
 
         } else {
 
-            const stripe = require('stripe')('sk_test_tR3PYbcVNZZ796tH88S4VQ2u');
+            const stripe = require('stripe')('sk_test_gpLn1vbkQPRgvXfh1KbjX5ms00Smx29t19');
             const total  = data.total;
             const email  = data.email;
             
             try{
                 const paymentIntent = await stripe.paymentIntents.create({
-                    amount: total,
+                    amount: parseFloat(total)*100,
                     currency: 'inr',
                     description: 'Software development services',
                     //customer:email

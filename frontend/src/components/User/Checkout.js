@@ -15,7 +15,7 @@ import { incProductQty, decProductQty, removeProductCart } from '../../redux/pro
 
 axios.defaults.withCredentials = true
 
-const stripePromise = loadStripe("pk_test_51BTUDGJAJfZb9HEBwDg86TN1KNprHjkfipXmEDMb0gSCassK5T3ZfxsAbcgKVmAIXF7oZ6ItlZZbXO6idTHE67IM007EwQ4uN3");
+const stripePromise = loadStripe("pk_test_SVvJzp4JTJ523tjF49yW4UQ200b9qdxDXa");
 
 
 

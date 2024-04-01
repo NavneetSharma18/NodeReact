@@ -11,6 +11,7 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPayemntDone, setPaymentDone] = useState(null);
 
   useEffect(() => {
     if (!stripe) {
@@ -27,6 +28,7 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
+          localStorage.removeItem('payment_intent');
           setMessage("Payment succeeded!");
           break;
         case "processing":
@@ -57,7 +59,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/checkout",
       },
     });
 
@@ -72,7 +74,8 @@ export default function CheckoutForm() {
       setMessage("An unexpected error occurred.");
     }
 
-    setIsLoading(false);
+     setPaymentDone(true)
+     setIsLoading(false);
   };
 
   const paymentElementOptions = {
