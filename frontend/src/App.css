@@ -200,6 +200,9 @@ td.pro_img {
 a.mt-6.w-full.rounded-md.bg-blue-500.py-1\.5.font-medium.text-blue-50.hover\:bg-blue-600 {
   padding: 10px;
 }
+.add_to_cart{
+  cursor: pointer;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

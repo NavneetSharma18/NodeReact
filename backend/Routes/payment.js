@@ -1,12 +1,12 @@
-const express                             = require('express');
-const {createPaymentIntent} = require('../Controllers/PaymentController');
-const router                              = express.Router();
+const express                = require('express');
+const {stripeCheckout}       = require('../Controllers/PaymentController');
+const router                 = express.Router();
 
 
 /*--------------------------------------------
 | Payments routes
 ---------------------------------------------*/
 
-router.post('/create-pi', createPaymentIntent);
+router.post('/checkout', stripeCheckout);
 
 module.exports = router;

@@ -11,9 +11,6 @@ import Signup            from  './components/Signup';
 import Login             from  './components/Login';
 
 import Shop              from  './components/User/Shop';
-import Checkout          from  './components/User/Checkout';
-
-
 
 import AddProduct        from  './components/Admin/Product/AddProduct';
 import AllProduct        from  './components/Admin/Product/AllProducts';
@@ -51,10 +48,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/checkout" element={<Checkout />} />
-        
           
-        
         </Routes>
         <Footer />
       </BrowserRouter>
