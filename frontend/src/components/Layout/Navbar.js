@@ -13,6 +13,7 @@ axios.defaults.withCredentials = true
 const Navbar = ()=>{
 
 	const auth         = useSelector((state) => state.loginRes.isUserLogin);
+  const loginUserId  = useSelector((state) => state.loginRes.userId);
 	const userData     = useSelector((state) => state.loginRes.authData);
 
   const cartItems    = useSelector((state) => state.cartItem.cartItems);
@@ -78,7 +79,7 @@ const Navbar = ()=>{
 
       axios(API_BASE_URL+'/payment/checkout', {
         method: "post",
-        data  : {cartItems:cartItems},
+        data  : {cartItems:cartItems,shippingCost:shippingCost,loginUserId:loginUserId},
         withCredentials: true
       }).then(function (result) {
         console.log(result.data.status)
