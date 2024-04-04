@@ -1,6 +1,6 @@
 const express                = require('express');
-const {stripeCheckout}       = require('../Controllers/PaymentController');
 const router                 = express.Router();
+const {stripeCheckout,stripeWebhookCall} = require('../Controllers/PaymentController');
 
 
 /*--------------------------------------------
@@ -8,5 +8,7 @@ const router                 = express.Router();
 ---------------------------------------------*/
 
 router.post('/checkout', stripeCheckout);
+router.post('/webhook', stripeWebhookCall);
+
 
 module.exports = router;
