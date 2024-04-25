@@ -26,7 +26,7 @@ const stripeCheckout = async (req, res) => {
 
 
         // Create Stripe Checkout item list
-
+        const order_id   = Math.random().toString(36).slice(2)
         const line_items = cartItems.map(item => {
             return {
                 price_data: {
@@ -36,7 +36,8 @@ const stripeCheckout = async (req, res) => {
                         images: [BASE_URL + item.product_image],
                         description: item.product_description,
                         metadata: {
-                            id: item._id
+                            id: item._id,
+                            order_id:order_id
                         }
                     },
                     unit_amount: item.product_price * 100
@@ -46,22 +47,12 @@ const stripeCheckout = async (req, res) => {
             }
         });
 
-        // Create Customeron Stripe
-
-        const metadata = cartItems.map(item => {
-            return {
-
-                name: item.product_title,
-                images: BASE_URL + item.product_image,
-                product_id: item._id
-
-            }
-        });
+        
     
         const customer = await stripe.customers.create({
             metadata: {
                 userId: loginUserId,
-                cartItems: JSON.stringify(metadata)
+                //cartItems: JSON.stringify(metadata)
             }
         });
 
@@ -77,9 +68,11 @@ const stripeCheckout = async (req, res) => {
             customer: customer.id,
             line_items,
             mode: 'payment',
-            success_url: `${CLIENT_URL}/thankyou`,
+            success_url: `${CLIENT_URL}/thankyou/?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${CLIENT_URL}/shop`,
         });
+
+   
 
         res.json({ 'status': true, 'msg': session.url });
 
@@ -112,8 +105,17 @@ const stripeCheckout = async (req, res) => {
 ----------------------------------------------------------------------*/
 
 const createOrder = async (customer, data) => {
-    const items = JSON.parse(customer.metadata.cartItems);
+    const sessionId = data.id;
+    // get LinItems details
+    const productData = await stripe.checkout.sessions.retrieve(
+        sessionId, {
+        expand: ['line_items']
+      });
+      
+    const items =  productData.line_items.data;
+
     const newOrder = new OrderModel({
+        stripe_checkout_session_id:sessionId,
         user_id: customer.metadata.userId,
         customer_id: data.customer,
         payment_intent_id: data.payment_intent_id,
@@ -147,7 +149,7 @@ const stripeWebhookCall = (req, res) => {
 
     let event_type;
     const data = req.body.data.object;
-
+    
     try {
         event_type = req.body.type; //stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
@@ -161,6 +163,7 @@ const stripeWebhookCall = (req, res) => {
         case 'checkout.session.completed':
 
             stripe.customers.retrieve(data.customer).then((customer) => {
+
                 createOrder(customer, data);
             }).catch((err) => {
                 console.log('error customer retrieve ' + err.message);
@@ -179,7 +182,26 @@ const stripeWebhookCall = (req, res) => {
 
 
 
+/*-----------------------------------------------------------------------
+| GET ORDER BY CHECKOUT SESSION ID
+-------------------------------------------------------------------------*/
+
+
+const getOrder = async(req, res) => {
+
+    //const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);
+    //const customer = await stripe.customers.retrieve(session.customer);
+    const productData = await stripe.checkout.sessions.retrieve(
+        req.body.sessionId, {
+        expand: ['line_items']
+      });
+    res.json({ 'status': true, 'msg': productData.line_items.data });
+}
+
+
+
 module.exports = {
     stripeCheckout,
     stripeWebhookCall,
+    getOrder,
 };
