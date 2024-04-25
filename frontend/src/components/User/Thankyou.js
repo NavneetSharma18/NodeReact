@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { useNavigate }  from "react-router-dom";
+import { useNavigate,useSearchParams }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,10 +9,34 @@ axios.defaults.withCredentials = true
 
 const Thankyou = ()=>{
 
-  const [products,setProducts]  = React.useState([]);
+  const [searchParams] = useSearchParams();
+
   const auth  = useSelector((state) => state.loginRes.userId);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+  //console.log(API_BASE_URL)
+  
+  useEffect(()=>{
 
+    axios("http://localhost:2000/payment/get-order", {
+      method: "post",
+      data:{sessionId:searchParams.get('session_id')},
+      //withCredentials: true
+    }).then(function (result) {
+        result = result.data
+       if(result.status == true){
+         ///setProducts(result.msg);
+        }else{
+
+            toast.warning(result.msg, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+    });
+
+  },[])
+
+  
+  
  
 
   return (
