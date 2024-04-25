@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = mongoose.Schema({
-
+ 
+  stripe_checkout_session_id:{
+    type: String, 
+    required: true
+  },
   user_id:{
     type: String, 
     required: true
