@@ -189,13 +189,9 @@ const stripeWebhookCall = (req, res) => {
 
 const getOrder = async(req, res) => {
 
-    //const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);
-    //const customer = await stripe.customers.retrieve(session.customer);
-    const productData = await stripe.checkout.sessions.retrieve(
-        req.body.sessionId, {
-        expand: ['line_items']
-      });
-    res.json({ 'status': true, 'msg': productData.line_items.data });
+    const OrderData   = await OrderModel.find({ "stripe_checkout_session_id": req.body.sessionId });
+    const orderDetail = OrderData[0];
+    res.json({ 'status': true,'orderData':orderDetail });
 }
 
 

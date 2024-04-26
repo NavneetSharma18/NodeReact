@@ -10,6 +10,9 @@ axios.defaults.withCredentials = true
 const Thankyou = ()=>{
 
   const [searchParams] = useSearchParams();
+  const [checkoutProductData,  setCheckoutProductData] = useState(['']);
+  const [checkoutProducts,  setCheckoutProducts] = useState(['']);
+
 
   const auth  = useSelector((state) => state.loginRes.userId);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -24,7 +27,9 @@ const Thankyou = ()=>{
     }).then(function (result) {
         result = result.data
        if(result.status == true){
-         ///setProducts(result.msg);
+          setCheckoutProductData(result.orderData);
+          setCheckoutProducts(result.orderData.products)
+         
         }else{
 
             toast.warning(result.msg, {
@@ -36,55 +41,51 @@ const Thankyou = ()=>{
   },[])
 
   
-  
- 
 
   return (
 
            <div className="register_div">
             
-                      <div className="justify-center items-center h-screen  text-gray-900">
-                        <div className="rounded-md relative w-72 shadow-2xl p-3 bg-white">
-                          <div className="py-2">
-                            <div className="text-center text-xl font-bold">ORDER</div>
-                            <div className="text-center text-xs font-bold">The order details</div>
+                      <div className="justify-center items-center   text-gray-900">
+                        <div className="rounded-md relative  p-3 ">
+                          <div className='text-center text-xxl font-bold text-white'>❤ Your order has been received Thanks!</div>
+
+                          <div className="py-2 my-4">
+                            <div className="text-center text-xl font-bold text-white">ORDER</div>
+                            <div className="text-center text-xs font-bold text-white">The order details</div>
                           </div>
-                          <div className="text-center text-xs font-bold mb-1">~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div>
+                          <div className="text-center text-xs font-bold mb-1 text-white">~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div>
                           <div className="text-xs pl-2">
-                            <div className="text-xs mb-1">Customer：Jack</div>
-                            <div className="text-xs mb-1">TelePhone：182****8888</div>
-                            <div>OrderNumber：17485554487748500</div>
+                            <div className="text-xs mb-1 text-white">Customer：{checkoutProductData.shipping_address?checkoutProductData.shipping_address.name:''}</div>
+                            <div className="text-xs mb-1 text-white">TelePhone：{checkoutProductData.shipping_address?checkoutProductData.shipping_address.phone:''}</div>
+                            <div className="text-white">OrderNumber：{checkoutProductData._id}</div>
                           </div>
-                          <div className="border-double border-t-4 border-b-4 border-l-0 border-r-0 border-gray-900 my-3">
+                          <div className="border-double border-t-4 border-b-4 border-l-0 border-r-0 border-white-900 my-3">
+                           
                             <div className="flex text-sm pt-1 px-1">
-                              <span className="w-2/6">Name</span>
-                              <span className="w-2/6 text-right">Price</span>
-                              <span className="w-2/6 text-right">Number</span>
+                              <span className="w-2/6 text-white">Name</span>
+                              <span className="w-2/6 text-right text-white">Price</span>
+                              <span className="w-2/6 text-right text-white">Qty</span>
                             </div>
-                            <div className="border-dashed border-t border-b border-l-0 border-r-0 border-gray-900 mt-1 my-2 py-2 px-1">
-                              <div className="flex justify-between text-sm">
-                                <span className="w-2/6 truncate">Gym suit</span>
-                                <span className="w-2/6 text-right">$9998</span>
-                                <span className="w-2/6 text-right">1</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="w-2/6 truncate">Boxing glove</span>
-                                <span className="w-2/6 text-right">$9998</span>
-                                <span className="w-2/6 text-right">1</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="w-2/6 truncate">Purified water</span>
-                                <span className="w-2/6 text-right">$2</span>
-                                <span className="w-2/6 text-right">4</span>
-                              </div>
+
+                            <div className="border-dashed border-t border-b border-l-0 border-r-0 border-whit-900 mt-1 my-2 py-2 px-1">
+                              {
+					  	                   checkoutProducts.length>0 ? checkoutProducts.map((item,index)=>
+                                  <div className="flex justify-between text-sm">
+                                    <span className="w-2/6 truncate text-white">{item.description}</span>
+                                    <span className="w-2/6 text-right text-white">₹{item.amount_total/100}</span>
+                                    <span className="w-2/6 text-right text-white">{item.quantity}</span>
+                                  </div>
+                              )
+                              :'No result found'
+                            }
                             </div>
+
                           </div>
-                          <div className="text-xs">
-                            <div className="mb-1">Discount：￥50</div>
-                            <div className="mb-52">Remark：--</div>
-                            <div className="text-right">
-                              <div>Time：2020-12-21</div>
-                              <div className="font-bold text-sm">Aggregate：￥700</div>
+                          <div className="text-xs gtotal">
+                          <div className="text-right">
+                             <div className="font-bold text-sm text-white">Sub Total    : ₹{checkoutProductData.sub_total}</div>
+                              <div className="font-bold text-sm text-white">Total       : ₹{checkoutProductData.total}</div>
                             </div>
                           </div>
                         </div>

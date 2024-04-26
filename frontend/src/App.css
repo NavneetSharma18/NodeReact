@@ -203,6 +203,17 @@ a.mt-6.w-full.rounded-md.bg-blue-500.py-1\.5.font-medium.text-blue-50.hover\:bg-
 .add_to_cart{
   cursor: pointer;
 }
+.border-double.border-t-4.border-b-4.border-l-0.border-r-0.border-white-900.my-3 {
+  width: 30%;
+  margin: 0px auto;
+  text-align: center;
+  margin-top: 4%;
+  padding-top: 20p;
+}
+.gtotal {
+  width: 65%;
+  margin-top: 10px;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
