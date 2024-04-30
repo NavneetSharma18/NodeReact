@@ -68,7 +68,7 @@ const stripeCheckout = async (req, res) => {
             customer: customer.id,
             line_items,
             mode: 'payment',
-            success_url: `${CLIENT_URL}/thankyou/?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${CLIENT_URL}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${CLIENT_URL}/shop`,
         });
 

@@ -123,7 +123,7 @@ const AllProduct = ()=>{
 					    <td>{item.product_title}</td>
 					    <td>{item.product_description}</td>
 					    <td>₹{item.product_price}</td>
-					    <td className='pro_img'><img width='100%' src={'http://localhost:2000'+item.product_image} /></td>
+					    <td className='pro_img'><img width='100%' src={API_BASE_URL+item.product_image} /></td>
 					    <td><button className='btn btn-danger' onClick={()=>deleteProduct(item._id)}>Delete</button>
 					    	<Link className='btn btn-primary' to={"/update/"+item._id}>Update</Link>
 					    </td>

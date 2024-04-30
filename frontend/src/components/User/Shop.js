@@ -11,6 +11,7 @@ axios.defaults.withCredentials = true
 
 const Shop = ()=>{
 
+	const  navigate               = useNavigate();
 	const [products,setProducts]  = React.useState([]);
 	const auth                    = useSelector((state) => state.loginRes.userId);
 	const dispatch                = useDispatch();
@@ -30,7 +31,7 @@ const Shop = ()=>{
         
     	const user_id = (auth)?auth:'';
 
-    	  axios("http://localhost:2000/user/get-product", {
+    	  axios(API_BASE_URL+"/user/get-product", {
               method: "get",
               //withCredentials: true
             }).then(function (result) {
@@ -48,11 +49,14 @@ const Shop = ()=>{
     }
 
     const productAddToCart = async (product)=>{
-
-    	const product1 = JSON.parse(JSON.stringify(product))
+		const product1 = JSON.parse(JSON.stringify(product))
         product1.qty   = 1;
-    	dispatch(addProductToCart(product1));
 
+		auth?dispatch(addProductToCart(product1)):
+		 toast.warning('Please login before shopping', {
+			position: toast.POSITION.TOP_RIGHT,
+		  });
+		 navigate('/login')
     }
 
 	return (

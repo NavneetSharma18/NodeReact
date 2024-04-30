@@ -2,6 +2,8 @@ const dotenv       = require('dotenv');
 const UserModel    = require('../DB/user');
 const RoleModel    = require('../DB/role');
 const ProductModel = require('../DB/product');
+const OrderModel   = require('../DB/order');
+
 const Jwt          = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const md5          = require('md5');
@@ -138,6 +140,19 @@ const getProduct = async (req, res) => {
     
 }
 
+const getOrders = async (req, res) => {
+
+    try{
+       const userId   = req.body.userId;
+       const orders = await OrderModel.find({'user_id':userId});
+       res.json({'status':true,'msg':orders});
+
+   }catch(err){
+       res.json({'status':true,'msg':err});
+   }
+   
+}
+
 
 
 
@@ -147,5 +162,6 @@ module.exports =  {
     Login,
     Logout,
     getProduct,
+    getOrders,
     
 };

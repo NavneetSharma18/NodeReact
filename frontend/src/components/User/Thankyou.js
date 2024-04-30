@@ -20,7 +20,7 @@ const Thankyou = ()=>{
   
   useEffect(()=>{
 
-    axios("http://localhost:2000/payment/get-order", {
+    axios(API_BASE_URL+"/payment/get-order", {
       method: "post",
       data:{sessionId:searchParams.get('session_id')},
       //withCredentials: true

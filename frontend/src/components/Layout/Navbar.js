@@ -15,6 +15,7 @@ const Navbar = ()=>{
 	const auth         = useSelector((state) => state.loginRes.isUserLogin);
   const loginUserId  = useSelector((state) => state.loginRes.userId);
 	const userData     = useSelector((state) => state.loginRes.authData);
+  const roleId       = useSelector((state) => state.loginRes.userRoleId);
 
   const cartItems    = useSelector((state) => state.cartItem.cartItems);
   const total        = useSelector((state) => state.cartItem.totalPrice);
@@ -131,34 +132,60 @@ const Navbar = ()=>{
       }, 1000);
   }
 
-
+ const cartEmptyMsg = ()=>{
+  if(!auth){
+     toast.error("please login before checkout", {
+      position: toast.POSITION.TOP_RIGHT,
+     })
+     navigate('/login')
+  }else{
+     toast.error("Cart is empty, please add product for checkout", {
+      position: toast.POSITION.TOP_RIGHT,
+     });
+  }
+   
+ }
  
 
 
 	return (
             <>
-                { auth?
+                { (auth && roleId == '65e5921305ce705cf3adc5cc') ?
                 <ul className="navbar_ul" key={auth._id}>
                   <li><Link to="/">Product</Link></li>
                   <li><Link to="/add">Add Product</Link></li>
                   <li><Link to="/signup" onClick={logoutUser}>Logout ({(userData)?userData.name:'-'})</Link></li>   
-              </ul>
+                </ul>
                 :
-                <ul className="navbar_ul">
-                  <li><Link to="/signup">Sign Up</Link></li>  
-                  <li><Link to="/login">Login</Link></li> 
-                  <li><Link to="/shop">Shop</Link></li> 
+                
+                <ul className="navbar_ul" key={auth._id}>
+
+                  {auth && roleId != '65e5921305ce705cf3adc5cc' ? (
+                           <> 
+                              <li><Link to="/orders">My Orders</Link></li>
+                              <li><Link to="/signup" onClick={logoutUser}>Logout ({(userData)?userData.name:'-'})</Link></li>   
+                           </>
+                          
+                        ) : (
+                          <>
+                            <li><Link to="/login">Login</Link></li>
+                            <li><Link to="/signup">Sign Up</Link></li>
+                            <li><Link to="/shop">Shop</Link></li>
+                          </>
+                  )}
+      
                   <li className='cart_icon' onClick={toggleVisibilityCart}>
-                      <div className="relative py-2">
-                    <div className="t-0 absolute left-3">
-                      <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">{cartItems.length}</p>
+                        <div className="relative py-2">
+                      <div className="t-0 absolute left-3">
+                        <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">{cartItems.length}</p>
+                      </div>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="file: mt-4 h-6 w-6 bg-white-500 text-white">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                      </svg>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="file: mt-4 h-6 w-6 bg-white-500 text-white">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                    </svg>
-                  </div>
-                </li>
-              </ul>
+                  </li>
+
+                </ul>
 
 
               }
@@ -234,9 +261,10 @@ const Navbar = ()=>{
                                           <p className="text-sm text-gray-700">including VAT</p>
                                         </div>
                                       </div>
+                                      {cartItems.length>0 ?<button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={checkoutHandler} >Check out</button>
+                           :<button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={cartEmptyMsg} >Check out</button>}
                                     
-                                      <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={checkoutHandler}>Check out</button>
-                          
+                                      
                                   </div>
 
                                 </div>

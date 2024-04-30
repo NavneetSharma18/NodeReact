@@ -24,7 +24,7 @@ const initialState = {
 
 export const checkLogin = (senddata) => async (dispatch) => {
 
-  console.log(API_BASE_URL);
+  //console.log(API_BASE_URL);
 
     try {   
 

@@ -9,7 +9,8 @@ axios.defaults.withCredentials = true
 const PrivateComponent = ()=>{
      
       const auth     = useSelector((state) => state.loginRes.isUserLogin);
-      return auth?<Outlet />:<Navigate to='/signup' />
+      const roleId   = useSelector((state) => state.loginRes.userRoleId);
+      return auth && roleId == '65e5921305ce705cf3adc5cc' ?<Outlet />:( auth && roleId != '65e5921305ce705cf3adc5cc')?<Navigate to='/orders' />:<Navigate to='/signup' />
 	
 }
 

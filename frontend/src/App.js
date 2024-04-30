@@ -12,6 +12,7 @@ import Login             from  './components/Login';
 
 import Shop              from  './components/User/Shop';
 import Thankyou          from  './components/User/Thankyou';
+import Orders            from './components/User/Orders';
 
 
 import AddProduct        from  './components/Admin/Product/AddProduct';
@@ -40,17 +41,19 @@ function App() {
         <Routes>
         
           <Route element={<PrivateComponents />} >
-              <Route path="/" element={<AllProduct />} />
-              <Route path="/add" element={<AddProduct />} />
-              <Route path="/update/:id" element={<UpdateProduct />} />
-              <Route path="/logout" element={<h1>Logout User</h1>} />
+              <Route path='/' element={<AllProduct />} />
+              <Route path='/add' element={<AddProduct />} />
+              <Route path='/update/:id' element={<UpdateProduct />} />
+              <Route path='/logout' element={<h1>Logout User</h1>} />
               
           </Route>
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/thankyou" element={<Thankyou />} />
+          <Route path='/' element={<Shop />} />
+          <Route path='/orders' element={<Orders />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/thankyou' element={<Thankyou />} />
           
         </Routes>
         <Footer />
