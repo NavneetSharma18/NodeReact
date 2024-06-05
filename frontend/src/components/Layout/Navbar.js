@@ -163,7 +163,8 @@ const Navbar = ()=>{
                   {auth && roleId != '65e5921305ce705cf3adc5cc' ? (
                            <> 
                               <li><Link to="/orders">My Orders</Link></li>
-                              <li><Link to="/signup" onClick={logoutUser}>Logout ({(userData)?userData.name:'-'})</Link></li>   
+                              <li><Link to="/signup" onClick={logoutUser}>Logout ({(userData)?userData.name:'-'})</Link></li>  
+                              <li><Link to="/shop">Shop</Link></li> 
                            </>
                           
                         ) : (

@@ -93,6 +93,7 @@ const Signup = ()=>{
 		    		navigate('/login');
 		    	}
 	    	}else{
+				console.log(res)
 	    		 toast.error(result.msg, {
 				      position: toast.POSITION.TOP_RIGHT,
 				    });

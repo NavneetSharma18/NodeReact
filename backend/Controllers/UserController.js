@@ -46,17 +46,23 @@ const Register = async (req, res) => {
         reqData.password = md5(md5(reqData.password));
         reqData.role_id  = role._id;
 
-        const signup     = await UserModel.create(reqData);
+        checkUserExist   = await UserModel.findOne({email:reqData.email});
+        if(checkUserExist){
+               res.json({'status':false,'msg':'Email already register with us...'}); 
+        }else{
 
-        Jwt.sign({signup},jwtKey,{expiresIn:JWTKEYEXP},(err,token)=>{
-            if(err){
-                console.log('error is',err);
-                res.json({'status':false,'msg':err}); 
-            }else{
-               res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/'}).json({'status':true,'msg':'User Signup|Register Successfully','data':signup}); 
-            }
-            
-        })
+                const signup     = await UserModel.create(reqData);
+
+                Jwt.sign({signup},jwtKey,{expiresIn:JWTKEYEXP},(err,token)=>{
+                    if(err){
+                        res.json({'status':false,'msg':err}); 
+                    }else{
+                    res.cookie('token',token,{'sameSite':'strict','httpOnly':true,'path':'/'}).json({'status':true,'msg':'User Register Successfully','data':signup}); 
+                    }
+                    
+                })
+        }
+        
 
         
 

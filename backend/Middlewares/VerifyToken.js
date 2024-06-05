@@ -15,7 +15,7 @@ const VerifyToken = (req,res,next)=>{
     	   Jwt.verify(token,jwtKey,(err,valid)=>{
 
     	 	if(err){
-    	 		res.json({'status':false,'msg':'Invalid token, try agian..'});
+    	 		res.json({'status':false,'msg':err+' Invalid token, try agian..'});
     	 		
     	 	}else{
     	 		next();
@@ -24,7 +24,7 @@ const VerifyToken = (req,res,next)=>{
     	 
 
     }else{
-    	res.json({'status':false,'msg':'Unauthorized user...'});
+    	res.json({'status':false,'msg':'Invalid param...try agian.'});
     }
    
 }

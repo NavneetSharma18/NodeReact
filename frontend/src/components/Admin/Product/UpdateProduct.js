@@ -56,7 +56,7 @@ const UpdateProduct = ()=>{
     	
 
 
-    	 axios('http://localhost:2000/product/update-product/'+param.id, {
+    	 axios(API_BASE_URL+'/product/update-product/'+param.id, {
               method: "put",
               data: {product_title,product_description,product_price},
               withCredentials: true
