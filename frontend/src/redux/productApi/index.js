@@ -19,94 +19,6 @@ const initialState = {
 
 
 /*-------------------------------------------------
-| Create Redux Thunk For Api Call ASYNC
----------------------------------------------------*/
-
-export const addProductToCart = (product) => async (dispatch) => {
-
-    try {   
-          
-          dispatch(addToCart(product));
-          
-
-    }catch (error) {
-
-            toast.error('Error during login:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
-
-
-/*-------------------------------------------------
-| Increase Product Qty
----------------------------------------------------*/
-
-export const qtyIncrease = (product) => async (dispatch) => {
-
-    try {   
-          
-          dispatch(incProductQty(product));
-          
-
-    }catch (error) {
-
-            toast.error('Error in increment product qty:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
-
-/*-------------------------------------------------
-| Decrease Product Qty
----------------------------------------------------*/
-
-export const qtyDecrease = (product) => async (dispatch) => {
-
-    try {   
-          
-          dispatch(decProductQty(product));
-          
-
-    }catch (error) {
-
-            toast.error('Error in decrement product qty:'+error, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-    }
-
-
-}
-
-
-/*-------------------------------------------------
-| Remove Product From Cart 
----------------------------------------------------*/
-
-export const removeProduct = (product) => async (dispatch) => {
-
-  try {   
-        
-        dispatch(removeProductCart(product));
-        
-
-  }catch (error) {
-
-          toast.error('Error in removing product:'+error, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-  }
-
-
-}
-
-
-
-/*-------------------------------------------------
 | Create Redux Slice and Reducer Function
 ---------------------------------------------------*/
 
@@ -194,6 +106,94 @@ export const productApiSlice = createSlice({
           }
   }
 })
+
+
+/*-------------------------------------------------
+| Create Redux Thunk For Api Call ASYNC
+---------------------------------------------------*/
+
+export const addProductToCart = (product) => async (dispatch) => {
+
+  try {   
+        
+        dispatch(addToCart(product));
+        
+
+  }catch (error) {
+
+          toast.error('Error during login:'+error, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+  }
+
+
+}
+
+
+/*-------------------------------------------------
+| Increase Product Qty
+---------------------------------------------------*/
+
+export const qtyIncrease = (product) => async (dispatch) => {
+
+  try {   
+        
+        dispatch(incProductQty(product));
+        
+
+  }catch (error) {
+
+          toast.error('Error in increment product qty:'+error, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+  }
+
+
+}
+
+/*-------------------------------------------------
+| Decrease Product Qty
+---------------------------------------------------*/
+
+export const qtyDecrease = (product) => async (dispatch) => {
+
+  try {   
+        
+        dispatch(decProductQty(product));
+        
+
+  }catch (error) {
+
+          toast.error('Error in decrement product qty:'+error, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+  }
+
+
+}
+
+
+/*-------------------------------------------------
+| Remove Product From Cart 
+---------------------------------------------------*/
+
+export const removeProduct = (product) => async (dispatch) => {
+
+try {   
+      
+      dispatch(removeProductCart(product));
+      
+
+}catch (error) {
+
+        toast.error('Error in removing product:'+error, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+}
+
+
+}
+
 
 export const { addToCart,incProductQty,decProductQty,removeProductCart } = productApiSlice.actions;
 export default productApiSlice.reducer

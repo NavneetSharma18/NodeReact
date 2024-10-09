@@ -1,16 +1,19 @@
 import React,{useState} from 'react'
 import {Link,json,useNavigate} from 'react-router-dom'
 import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux'
 import {checkLogout} from '../../redux/userApi/';
 import {incProductQty,decProductQty,removeProductCart} from '../../redux/productApi/';
 
-axios.defaults.withCredentials = true
+
 
 
 const Navbar = ()=>{
+
+
+  axios.defaults.withCredentials = true
 
 	const auth         = useSelector((state) => state.loginRes.isUserLogin);
   const loginUserId  = useSelector((state) => state.loginRes.userId);

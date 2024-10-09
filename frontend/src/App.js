@@ -1,8 +1,7 @@
 import './App.css';
-import logo                           from './logo.svg';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import React,{useState,useEffect} from 'react'
-import { ToastContainer, toast }      from "react-toastify";
+import { ToastContainer }      from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Navbar            from  './components/Layout/Navbar';
@@ -24,11 +23,11 @@ function App() {
 
 
   const auth       = localStorage.getItem('user')
-  const [nodeapiurl,setNodeapiurl]  = useState("");
+  //const [nodeapiurl,setNodeapiurl]  = useState("");
   
   useEffect(()=>{
 
-      setNodeapiurl(process.env.REACT_APP_NODE_API_URL);
+      //setNodeapiurl(process.env.REACT_APP_NODE_API_URL);
     })
 
 
