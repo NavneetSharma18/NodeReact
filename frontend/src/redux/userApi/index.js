@@ -96,6 +96,9 @@ export const checkLogout = () => async (dispatch) => {
 }
 
 
+
+
+
 /*-------------------------------------------------
 | Create Redux Slice and Reducer Function
 ---------------------------------------------------*/
@@ -124,7 +127,9 @@ export const loginApiSlice = createSlice({
                   state.isUserLogin = false;
                   state.userRoleId  = null;
                   state.userId      = null;
-          }
+          },
+          
+          
   }
 })
 

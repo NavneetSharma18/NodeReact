@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate,useSearchParams }  from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import {resetUserState} from '../../redux/productApi/';
 import axios from 'axios';
 axios.defaults.withCredentials = true
 
@@ -14,7 +15,8 @@ const Thankyou = ()=>{
   const [checkoutProducts,  setCheckoutProducts] = useState(['']);
 
 
-  const auth  = useSelector((state) => state.loginRes.userId);
+  const auth         = useSelector((state) => state.loginRes.userId);
+  const dispatch     = useDispatch();
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
   //console.log(API_BASE_URL)
   
@@ -25,10 +27,13 @@ const Thankyou = ()=>{
       data:{sessionId:searchParams.get('session_id')},
       //withCredentials: true
     }).then(function (result) {
+      console.log('respnse is ',result.data)
         result = result.data
        if(result.status == true){
+        console.log(result.orderData)
           setCheckoutProductData(result.orderData);
-          setCheckoutProducts(result.orderData.products)
+          setCheckoutProducts(result.orderData.products);
+          dispatch(resetUserState());
          
         }else{
 

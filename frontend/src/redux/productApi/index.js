@@ -103,7 +103,8 @@ export const productApiSlice = createSlice({
             toast.info('Product removed form cart', {
               position: toast.POSITION.TOP_RIGHT,
             });
-          }
+          },
+          resetState: (state,action) => initialState
   }
 })
 
@@ -195,5 +196,13 @@ try {
 }
 
 
-export const { addToCart,incProductQty,decProductQty,removeProductCart } = productApiSlice.actions;
+export const resetUserState = () => async (dispatch) => {
+
+  dispatch(resetState());
+
+
+}
+
+
+export const { addToCart,incProductQty,decProductQty,removeProductCart,resetState } = productApiSlice.actions;
 export default productApiSlice.reducer
